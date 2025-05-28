@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const ERROR_MESSAGES = require("../utils/errors");
 
 // GET /users
 
