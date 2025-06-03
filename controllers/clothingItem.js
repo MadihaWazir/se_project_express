@@ -5,12 +5,12 @@ const createItem = (req, res) => {
   console.log(req);
   console.log(req.body);
 
-  const { name, weather, imageURL } = req.body;
+  const { name, weather, imageUrl } = req.body;
 
   ClothingItem.create({
     name,
     weather,
-    imageURL,
+    imageUrl,
     owner: req.user._id,
     likes: [],
   })
@@ -19,11 +19,12 @@ const createItem = (req, res) => {
       console.error(err);
       if (err.name === "ValidationError") {
         return res.status(400).send({
-          message: ERROR_MESSAGES.VALIDATION_ERROR,
-          err: err.message,
+          message: "Invalid data",
         });
       }
-      return res.status(500).send({ message: "Error from createItem", err });
+      return res
+        .status(500)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -32,7 +33,7 @@ const getItems = (req, res) => {
     .then((items) => res.status(200).send(items))
     .catch((err) => {
       console.error(err);
-      res.status(500).send({ message: "Error from getItems", err });
+      res.status(500).send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -42,12 +43,12 @@ const deleteItem = (req, res) => {
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
     .then((item) =>
-      res.status(204).send({ message: "Item deleted successfully", item }),
+      res.status(200).send({ message: "Item deleted successfully", item }),
     )
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(500).send({ message: "Error from deleteItem", err });
+        return res.status(400).send({ message: "Error from deleteItem" });
       }
       if (err.name === "DocumentNotFoundError") {
         return res.status(404).send({
@@ -55,9 +56,8 @@ const deleteItem = (req, res) => {
           err: "Item not found",
         });
       }
-      return res.status(404).send({
-        message: ERROR_MESSAGES.NOT_FOUND.message,
-        err: "Item not found",
+      return res.status(500).send({
+        message: "An error has occurred on the server",
       });
     });
 };
@@ -78,7 +78,9 @@ const likeItem = (req, res) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(404).send({ message: "Item not found" });
       }
-      return res.status(500).send({ message: "Error from likeItem", err });
+      return res
+        .status(500)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -98,7 +100,9 @@ const unlikeItem = (req, res) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(404).send({ message: "Item not found" });
       }
-      return res.status(500).send({ message: "Error from unlikeItem", err });
+      return res
+        .status(500)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
