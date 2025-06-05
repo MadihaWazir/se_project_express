@@ -2,9 +2,6 @@ const User = require("../models/user");
 const { ERROR_MESSAGES } = require("../utils/errors");
 
 
-
-
-
 // GET /users
 
 const getUsers = (req, res) => {
@@ -41,19 +38,7 @@ const getUser = (req, res) => {
         return res.status(ERROR_MESSAGES.BAD_REQUEST).send({ message: "Invalid user ID format" });
       }
       if (err.name === "DocumentNotFoundError") {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         return res.status(ERROR_MESSAGES.NOT_FOUND).send({ message: "User not found" });
-=======
-        return res.status(ERROR_MESSAGE.NOT_FOUND).send({ message: "User not found" });
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-        return res.status(ERROR_MESSAGE.NOT_FOUND).send({ message: "User not found" });
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-        return res.status(ERROR_MESSAGE.NOT_FOUND).send({ message: "User not found" });
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
       }
       return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR).send({ message: "An error has occurred on the server" });
     });

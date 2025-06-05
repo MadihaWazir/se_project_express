@@ -1,17 +1,5 @@
 const ClothingItem = require("../models/clothingItem");
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 const { ERROR_MESSAGES } = require("../utils/errors");
-=======
-const ERROR_MESSAGES = require("../utils/errors");
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-const ERROR_MESSAGES = require("../utils/errors");
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-const ERROR_MESSAGES = require("../utils/errors");
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
 
 const createItem = (req, res) => {
   console.log(req);
@@ -67,19 +55,7 @@ const deleteItem = (req, res) => {
           .send({ message: "Error from deleteItem" });
       }
       if (err.name === "DocumentNotFoundError") {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         return res.status(ERROR_MESSAGES.NOT_FOUND).send({
-=======
-        return res.status(ERROR_MESSAGE.NOT_FOUND).send({
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-        return res.status(ERROR_MESSAGE.NOT_FOUND).send({
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-        return res.status(ERROR_MESSAGE.NOT_FOUND).send({
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
           message: ERROR_MESSAGES.NOT_FOUND.message,
           err: "Item not found",
         });
@@ -107,19 +83,7 @@ const likeItem = (req, res) => {
       }
       if (err.name === "DocumentNotFoundError") {
         return res
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
           .status(ERROR_MESSAGES.NOT_FOUND)
-=======
-          .status(ERROR_MESSAGE.NOT_FOUND)
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-          .status(ERROR_MESSAGE.NOT_FOUND)
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-          .status(ERROR_MESSAGE.NOT_FOUND)
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
           .send({ message: "Item not found" });
       }
       return res
@@ -145,19 +109,7 @@ const unlikeItem = (req, res) => {
       }
       if (err.name === "DocumentNotFoundError") {
         return res
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
           .status(ERROR_MESSAGES.NOT_FOUND)
-=======
-          .status(ERROR_MESSAGE.NOT_FOUND)
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-          .status(ERROR_MESSAGE.NOT_FOUND)
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
-=======
-          .status(ERROR_MESSAGE.NOT_FOUND)
->>>>>>> 104fd0bf079e20e407f8a1403f63fac55825c5c8
           .send({ message: "Item not found" });
       }
       return res
