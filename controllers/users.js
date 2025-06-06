@@ -9,7 +9,7 @@ const getUsers = (req, res) => {
     .then((users) => res.status(200).send(users))
     .catch((err) => {
       console.error(err);
-      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR).send({ message: "An error has occurred on the server" });
+      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -21,9 +21,9 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(ERROR_MESSAGES.BAD_REQUEST).send({ message: "Invalid data" });
+        return res.status(ERROR_MESSAGES.BAD_REQUEST.status).send({ message: "Invalid data" });
       }
-      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR).send({ message: "An error has occurred on the server" });
+      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -35,12 +35,12 @@ const getUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(ERROR_MESSAGES.BAD_REQUEST).send({ message: "Invalid user ID format" });
+        return res.status(ERROR_MESSAGES.BAD_REQUEST.status).send({ message: "Invalid user ID format" });
       }
       if (err.name === "DocumentNotFoundError") {
-        return res.status(ERROR_MESSAGES.NOT_FOUND).send({ message: "User not found" });
+        return res.status(ERROR_MESSAGES.NOT_FOUND.status).send({ message: "User not found" });
       }
-      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR).send({ message: "An error has occurred on the server" });
+      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
     });
 };
 
