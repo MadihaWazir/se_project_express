@@ -10,14 +10,7 @@ const { ERROR_MESSAGES } = require("../utils/errors");
 
 // GET /users
 
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => {
-      console.error(err);
-      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
-    });
-};
+
 
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
@@ -37,39 +30,32 @@ const createUser = (req, res) => {
     });
 };
 
-const getUser = (req, res) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .orFail()
-    .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "CastError") {
-        return res.status(ERROR_MESSAGES.BAD_REQUEST.status).send({ message: "Invalid user ID format" });
-      }
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(ERROR_MESSAGES.NOT_FOUND.status).send({ message: "User not found" });
-      }
-      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
-    });
-};
+
 
 const login = (req, res) => {
   const { email, password } = req.body;
-
-  User.findUserbyCredentials(email, password)
+  if (!email || !password) {
+    return res.status(ERROR_MESSAGES.BAD_REQUEST.status).send({ message: "Email and password are required" });
+  }
+  return User.findUserbyCredentials(email, password)
     .then((user) => {
 
       const token = jwt.sign({_id: user._id }, JWT_SECRET, { expiresIn: "7d", });
       res.send({ token });
-     }); 
-        return res.status(ERROR_MESSAGES.UNAUTHORIZED_ERROR.status).send({ message: "Authentication failed" });
-      
-    };
+     })
+     .catch((err) => {
+      console.error(err);
+      if (err.name === "ValidationError") { 
+        return res.status(ERROR_MESSAGES.BAD_REQUEST.status).send({ message: "Authentication failed" }); 
+    }
+      if (err.name === "Incorect email and password") {
+        return res.status(ERROR_MESSAGES.UNAUTHORIZED.status).send({ message: "Authentication failed" });
+      }
+      return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
+    });
+};
   
 
-
-     
 
 
 const updateUser = (req, res) => {
@@ -91,7 +77,7 @@ const updateUser = (req, res) => {
     });
   };
 
-  const updateCurrentUser = (req, res) => {
+  const getCurrentUser = (req, res) => {
     const { name, avatar } = req.body;
     const userId = req.user._id;
 
@@ -111,6 +97,6 @@ const updateUser = (req, res) => {
   };
 
   
-module.exports = { getUsers, createUser, getUser, login, updateUser, updateCurrentUser };
+module.exports = { createUser, login, updateUser, getCurrentUser };
  
  

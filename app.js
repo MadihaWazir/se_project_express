@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const auth = require("./middlewares/auth");
+
 const mainRouter = require("./routes/index");
 
 
@@ -16,7 +16,10 @@ app.use(cors());
 
 app.post('/signin', login);
 app.post('/signup', createUser);
-app.use(auth);
+
+app.use("/", mainRouter);
+
+
 
 app.use((err, req, res) => {
   const { statusCode = 500, message } = err;
@@ -26,11 +29,11 @@ app.use((err, req, res) => {
       : message,
   });
 });
-const routes = require("./routes/index");
 
-app.use("/", mainRouter);
 
-app.use(routes);
+
+
+
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/wtwr_db")
