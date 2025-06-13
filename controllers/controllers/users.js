@@ -14,9 +14,11 @@ const { ERROR_MESSAGES } = require("../utils/errors");
 
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
+
   bcrypt
   .hash(password, 10)
-  .then((hash) => User.create({ name, avatar, email, password: hash }))
+  .then((hash) => User.create({ name, avatar, email, password: hash })
+  )
     .then((user) => {
       const userObject = user.toObject();
       delete userObject.password;
@@ -33,6 +35,7 @@ const createUser = (req, res) => {
       return res.status(ERROR_MESSAGES.INTERNAL_SERVER_ERROR.status).send({ message: "An error has occurred on the server" });
     });
 };
+
 
 
 
