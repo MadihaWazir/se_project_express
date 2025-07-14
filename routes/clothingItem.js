@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const express = require("express");
+const auth = require("../middlewares/auth");
+
 const {
   validateCreateClothingItem,
-  validateCreateUser,
-  validateUpdateUser,
+
   validateId,
 } = require("../middlewares/validation");
 
@@ -15,20 +15,13 @@ const {
   unlikeItem,
 } = require("../controllers/clothingItem");
 
-const {
-  createUser,
-  updateUser,
-} = require("../controllers/users");
+router.get("/", getItems);
 
-router.post("/items", validateCreateClothingItem, createItem);
+router.use(auth); // Ensure authentication for all item routes
 
-router.delete("/items/:itemId", validateId, deleteItem);
-
-router.put("/items/:itemId/likes", validateId, likeItem);
-
-router.delete("/items/:itemId/likes", validateId, unlikeItem);
-
-router.post("/signup", validateCreateUser, createUser);
-router.patch("/users/me", validateUpdateUser, updateUser);
+router.post("/", auth, validateCreateClothingItem, createItem);
+router.put("/:itemId/likes", auth, validateId, likeItem);
+router.delete("/:itemId", auth, validateId, deleteItem);
+router.delete("/:itemId/likes", auth, validateId, unlikeItem);
 
 module.exports = router;

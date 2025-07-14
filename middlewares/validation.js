@@ -64,6 +64,13 @@ const validateId = celebrate({
   params: Joi.object().keys({
     itemId: Joi.string().hex().length(24),
     userId: Joi.string().hex().length(24),
+    id: Joi.string().hex().length(24),
+  }),
+});
+
+const validateItemId = celebrate({
+  params: Joi.object().keys({
+    itemId: Joi.string().hex().length(24),
   }),
 });
 

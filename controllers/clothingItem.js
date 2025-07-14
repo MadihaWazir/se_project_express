@@ -1,5 +1,10 @@
 const ClothingItem = require("../models/clothingItem");
 const { ERROR_MESSAGES } = require("../utils/errors");
+const {
+  BadRequestError,
+  NotFoundError,
+  ForbiddenError,
+} = require("../utils/errors");
 
 const createItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
@@ -9,7 +14,7 @@ const createItem = (req, res, next) => {
     name,
     weather,
     imageUrl,
-    owner: req.user._id,
+    owner: owner,
     likes: [],
   })
     .then((item) => res.status(201).send(item))

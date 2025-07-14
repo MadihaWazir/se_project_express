@@ -1,3 +1,4 @@
+const ClothingItem = require("../models/clothingItem"); // Add missing import
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../utils/config");
@@ -5,11 +6,9 @@ const User = require("../models/user");
 const {
   BadRequestError,
   NotFoundError,
-  ConflictError,
-  InternalServerError,
-  ERROR_MESSAGES,
-} = require("../utils/errors");
 
+  UnauthorizedError,
+} = require("../errors");
 // GET /users
 
 const createUser = (req, res, next) => {
@@ -98,4 +97,27 @@ const getCurrentUser = (req, res, next) => {
     });
 };
 
-module.exports = { createUser, login, updateUser, getCurrentUser };
+const unlikeItem = (req, res, next) => {
+  const { itemId } = req.params;
+  const userId = req.user._id;
+
+  ClothingItem.findByIdAndUpdate(
+    itemId,
+    { $pull: { likes: userId } },
+    { new: true }
+  )
+    .then((item) => {
+      if (!item) {
+        return next(new NotFoundError(ERROR_MESSAGES.NOT_FOUND.message));
+      }
+      return res.status(200).send(item);
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
+      }
+      return next(err);
+    });
+};
+
+module.exports = { createUser, login, updateUser, getCurrentUser, unlikeItem };
