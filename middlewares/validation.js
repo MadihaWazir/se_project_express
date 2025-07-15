@@ -63,16 +63,10 @@ const validateLogin = celebrate({
 const validateId = celebrate({
   params: Joi.object().keys({
     itemId: Joi.string().hex().length(24),
-    userId: Joi.string().hex().length(24),
-    id: Joi.string().hex().length(24),
   }),
 });
 
-const validateItemId = celebrate({
-  params: Joi.object().keys({
-    itemId: Joi.string().hex().length(24),
-  }),
-});
+// eslint-disable-next-line no-unused-vars
 
 // 5. User update validation (for PATCH /users/me)
 const validateUpdateUser = celebrate({
@@ -82,7 +76,6 @@ const validateUpdateUser = celebrate({
       "string.max": 'The maximum length of the "name" field is 30',
     }),
     avatar: Joi.string().required().custom(validateURL).messages({
-      "string.empty": 'The "avatar" field must be filled in',
       "string.uri": 'the "avatar" field must be a valid url',
     }),
   }),
@@ -92,6 +85,7 @@ module.exports = {
   validateCreateClothingItem,
   validateCreateUser,
   validateLogin,
+
   validateId,
   validateUpdateUser,
 };

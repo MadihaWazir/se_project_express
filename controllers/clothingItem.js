@@ -1,10 +1,11 @@
 const ClothingItem = require("../models/clothingItem");
-const { ERROR_MESSAGES } = require("../utils/errors");
 const {
   BadRequestError,
   NotFoundError,
+
   ForbiddenError,
 } = require("../utils/errors");
+const { ERROR_MESSAGES } = require("../utils/errors");
 
 const createItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
@@ -14,7 +15,7 @@ const createItem = (req, res, next) => {
     name,
     weather,
     imageUrl,
-    owner: owner,
+    owner,
     likes: [],
   })
     .then((item) => res.status(201).send(item))
@@ -28,8 +29,8 @@ const createItem = (req, res, next) => {
 
 const getItems = (req, res, next) => {
   ClothingItem.find({})
-    .then((items) => res.status(200).send(items))
-    .catch((err) => next(err));
+    .then((items) => res.send(items))
+    .catch(next);
 };
 
 const deleteItem = (req, res, next) => {
@@ -88,7 +89,8 @@ const unlikeItem = (req, res, next) => {
     .orFail()
     .then((item) => res.status(200).send({ data: item }))
     .catch((err) => {
-      console.error(err);
+      // eslint-disable-next-line no-console
+      console.error(err); // fixed: added eslint-disable comment
       if (err.name === "CastError") {
         return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
       }
