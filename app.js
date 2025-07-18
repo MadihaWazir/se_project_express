@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { errors } = require("celebrate");
+
 const routes = require("./routes/index");
 const auth = require("./middlewares/auth");
 const errorHandler = require("./middlewares/errorhandler");
@@ -10,8 +11,8 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { PORT = 3001 } = process.env;
 const { login, createUser } = require("./controllers/users");
 const {
-  validateCreateUser,
   validateLogin,
+  validateCreateUser,
 } = require("./middlewares/validation");
 
 const app = express();
@@ -19,15 +20,22 @@ app.use(express.json());
 app.use(cors());
 app.use(requestLogger);
 
+app.get("/", (req, res) => {
+  res.send({ message: "WTWR API is running!" });
+});
+
+app.get("/favicon.ico", (req, res) => {
+  res.status(204).end();
+});
+
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateCreateUser, createUser);
 
-app.use(auth);
-app.use("/", routes);
+app.use(auth, routes);
 
+app.use(errorLogger);
 app.use(errors()); // Celebrate error handler
 app.use(errorHandler); // Custom error handler
-app.use(errorLogger);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")

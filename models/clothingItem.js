@@ -17,8 +17,10 @@ const clothingItemSchema = new mongoose.Schema({
     type: String,
     required: true,
     validator: {
-      validator: (v) => validator.isURL(v),
-      massage: "Link is not Valid",
+      validator(v) {
+        return validator.isURL(v);
+      },
+      message: "You must enter a valid URL",
     },
   },
   owner: {

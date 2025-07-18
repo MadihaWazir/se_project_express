@@ -1,27 +1,23 @@
-const router = require("express").Router();
-const auth = require("../middlewares/auth");
+const express = require("express");
+
+const router = express.Router();
 
 const {
   validateCreateClothingItem,
-
   validateId,
 } = require("../middlewares/validation");
 
 const {
   createItem,
-  getItems,
   deleteItem,
   likeItem,
   unlikeItem,
 } = require("../controllers/clothingItem");
 
-router.get("/", getItems);
+router.post("/item", validateCreateClothingItem, createItem);
 
-router.use(auth); // Ensure authentication for all item routes
-
-router.post("/", auth, validateCreateClothingItem, createItem);
-router.put("/:itemId/likes", auth, validateId, likeItem);
-router.delete("/:itemId", auth, validateId, deleteItem);
-router.delete("/:itemId/likes", auth, validateId, unlikeItem);
+router.put("/items/:itemId/likes", validateId, likeItem);
+router.delete("/items/:itemId", validateId, deleteItem);
+router.delete("/items/:itemId/likes", validateId, unlikeItem);
 
 module.exports = router;

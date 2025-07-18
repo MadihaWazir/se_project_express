@@ -29,8 +29,11 @@ const createItem = (req, res, next) => {
 
 const getItems = (req, res, next) => {
   ClothingItem.find({})
-    .then((items) => res.send(items))
-    .catch(next);
+    .then((items) => res.status(200).send(items))
+    .catch((err) => {
+      console.error("Error in getItems:", err);
+      next(err);
+    });
 };
 
 const deleteItem = (req, res, next) => {
@@ -68,7 +71,7 @@ const likeItem = (req, res, next) => {
     { new: true }
   )
     .orFail()
-    .then((item) => res.status(200).send({ data: item }))
+    .then((item) => res.status(200).send(item))
     .catch((err) => {
       if (err.name === "CastError") {
         return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
@@ -87,10 +90,8 @@ const unlikeItem = (req, res, next) => {
     { new: true }
   )
     .orFail()
-    .then((item) => res.status(200).send({ data: item }))
+    .then((item) => res.status(200).send(item))
     .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err); // fixed: added eslint-disable comment
       if (err.name === "CastError") {
         return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
       }

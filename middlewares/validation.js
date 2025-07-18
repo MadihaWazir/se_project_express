@@ -62,13 +62,22 @@ const validateLogin = celebrate({
 // 4. ID validation
 const validateId = celebrate({
   params: Joi.object().keys({
-    itemId: Joi.string().hex().length(24),
+    _id: Joi.string().length(24).hex().required().messages({
+      "string.empty": 'The "id" field must be filled in',
+      "string.length": 'The "id" field must be 24 characters long',
+      "string.hex": 'The "id" field must be a hexadecimal value',
+    }),
   }),
 });
 
-// eslint-disable-next-line no-unused-vars
+// 5. Item ID validation (for item-specific routes)
+const validateItemId = celebrate({
+  params: Joi.object().keys({
+    itemId: Joi.string().hex().length(24).required(),
+  }),
+});
 
-// 5. User update validation (for PATCH /users/me)
+// 6. User update validation (for PATCH /users/me)
 const validateUpdateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).messages({
@@ -76,6 +85,7 @@ const validateUpdateUser = celebrate({
       "string.max": 'The maximum length of the "name" field is 30',
     }),
     avatar: Joi.string().required().custom(validateURL).messages({
+      "string.empty": 'The "avatar" field must be filled in',
       "string.uri": 'the "avatar" field must be a valid url',
     }),
   }),
@@ -85,7 +95,7 @@ module.exports = {
   validateCreateClothingItem,
   validateCreateUser,
   validateLogin,
-
+  validateItemId,
   validateId,
   validateUpdateUser,
 };
