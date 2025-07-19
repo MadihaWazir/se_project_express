@@ -31,6 +31,9 @@ app.get("/favicon.ico", (req, res) => {
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateCreateUser, createUser);
 
+app.use("/items", auth, require("./routes/clothingItem"));
+app.use("/users", auth, require("./routes/users"));
+
 app.use(auth, routes);
 
 app.use(errorLogger);
