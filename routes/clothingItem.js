@@ -1,7 +1,5 @@
 const express = require("express");
 
-const router = express.Router();
-
 const {
   validateCreateClothingItem,
   validateId,
@@ -15,14 +13,16 @@ const {
   getItems,
 } = require("../controllers/clothingItem");
 
-router.get("/", getItems);
+const router = express.Router();
 
-router.post("/item", validateCreateClothingItem, createItem);
+router.get("/items", getItems);
 
-router.delete("/items/:itemId", validateId, deleteItem);
+router.post("/items", validateCreateClothingItem, createItem);
 
-router.put("/items/:itemId/likes", validateId, likeItem);
+router.use(validateId);
 
-router.delete("/items/:itemId/likes", validateId, unlikeItem);
+router.delete("/items/:itemId", deleteItem);
+router.put("/items/:itemId/likes", likeItem);
+router.delete("/items/:itemId/likes", unlikeItem);
 
 module.exports = router;

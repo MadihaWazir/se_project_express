@@ -11,8 +11,10 @@ const {
   validateCreateUser,
 } = require("../middlewares/validation");
 
-router.get("/users/me", getCurrentUser);
-router.patch("/users/me", validateUpdateUser, updateUser);
+const auth = require("../middlewares/auth");
+
+router.get("/users/me", auth, getCurrentUser);
+router.patch("/users/me", auth, validateUpdateUser, updateUser);
 router.post("/signup", validateCreateUser, createUser);
 
 router.use(validateId);
