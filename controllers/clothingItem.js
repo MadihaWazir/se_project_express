@@ -16,7 +16,6 @@ const createItem = (req, res, next) => {
     weather,
     imageUrl,
     owner,
-    likes: [],
   })
     .then((item) => res.status(201).send(item))
     .catch((err) => {
@@ -46,14 +45,10 @@ const deleteItem = (req, res, next) => {
         return next(new NotFoundError(ERROR_MESSAGES.NOT_FOUND.message));
       }
       if (item.owner.toString() !== userId) {
-        return next(new ForbiddenError(ERROR_MESSAGES.FORBIDDEN_ERROR.message));
+        return next(new ForbiddenError(ERROR_MESSAGES.FORBIDDEN.message));
       }
-
       return ClothingItem.findByIdAndDelete(itemId).then((deletedItem) =>
-        res.status(200).send({
-          message: "Item deleted successfully",
-          item: deletedItem,
-        })
+        res.status(200).send({ message: "Item deleted", item: deletedItem })
       );
     })
     .catch((err) => {

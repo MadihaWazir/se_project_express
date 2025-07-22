@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   validateCreateClothingItem,
+
   validateId,
 } = require("../middlewares/validation");
 

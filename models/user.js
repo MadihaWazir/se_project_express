@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      required: [true, "The avatar field is required."],
+      required: true,
       validate: {
         validator(value) {
           return validator.isURL(value);
@@ -27,9 +27,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       validate: {
-        validator(value) {
-          return validator.isEmail(value);
-        },
+        validator: (v) => validator.isEmail(v),
         message: "You must enter a valid email address",
       },
     },

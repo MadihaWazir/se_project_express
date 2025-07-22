@@ -59,8 +59,8 @@ const login = (req, res, next) => {
 };
 
 const updateUser = (req, res, next) => {
-  const { name, avatar } = req.body;
   const userId = req.user._id;
+  const { name, avatar } = req.body;
 
   User.findByIdAndUpdate(
     userId,

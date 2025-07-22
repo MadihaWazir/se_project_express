@@ -7,13 +7,13 @@ const routes = require("./routes/index");
 const auth = require("./middlewares/auth");
 const errorHandler = require("./middlewares/errorhandler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
-
-const { PORT = 3001 } = process.env;
-const { login, createUser } = require("./controllers/users");
 const {
   validateLogin,
   validateCreateUser,
 } = require("./middlewares/validation");
+const { login, createUser } = require("./controllers/users");
+
+const { PORT = 3001 } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(cors());
 app.use(requestLogger);
 
 app.get("/", (req, res) => {
-  res.send({ message: "WTWR API is running!" });
+  res.send({ message: "Welcome to the Clothing Items API" });
 });
 
 app.get("/favicon.ico", (req, res) => {
