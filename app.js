@@ -4,7 +4,7 @@ const cors = require("cors");
 const { errors } = require("celebrate");
 
 const routes = require("./routes/index");
-const auth = require("./middlewares/auth");
+
 const errorHandler = require("./middlewares/errorhandler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const {
@@ -12,7 +12,6 @@ const {
   validateCreateUser,
 } = require("./middlewares/validation");
 const { login, createUser } = require("./controllers/users");
-
 const { PORT = 3001 } = process.env;
 
 const app = express();
@@ -31,10 +30,11 @@ app.get("/favicon.ico", (req, res) => {
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateCreateUser, createUser);
 
-app.use("/items", auth, require("./routes/clothingItem"));
-app.use("/users", auth, require("./routes/users"));
+app.get("/items", require("./controllers/clothingItem").getItems);
 
-app.use(auth, routes);
+app.use(require("./middlewares/auth"));
+
+app.use(routes);
 
 app.use(errorLogger);
 app.use(errors()); // Celebrate error handler
