@@ -46,7 +46,13 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.send({ token });
+      res.send({
+        token,
+        _id: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        email: user.email,
+      });
     })
     .catch((err) => {
       if (err.message === "Incorrect email and password") {
@@ -71,9 +77,15 @@ const updateUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError(ERROR_MESSAGES.NOT_FOUND.message));
       }
-      return res.status(200).send(user);
+      return res.status(200).send({
+        _id: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        email: user.email,
+      });
     })
     .catch((err) => {
+      console.error(err);
       if (err.name === "ValidationError") {
         return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
       }
@@ -89,7 +101,12 @@ const getCurrentUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError(ERROR_MESSAGES.NOT_FOUND.message));
       }
-      return res.status(200).send(user);
+      return res.status(200).send({
+        _id: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        email: user.email,
+      });
     })
     .catch((err) => {
       if (err.name === "CastError") {

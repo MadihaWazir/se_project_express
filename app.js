@@ -1,4 +1,5 @@
 const express = require("express");
+
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { errors } = require("celebrate");
@@ -7,12 +8,13 @@ const routes = require("./routes/index");
 
 const errorHandler = require("./middlewares/errorhandler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { PORT = 3001 } = process.env;
+const { login, createUser } = require("./controllers/users");
+
 const {
   validateLogin,
   validateCreateUser,
 } = require("./middlewares/validation");
-const { login, createUser } = require("./controllers/users");
-const { PORT = 3001 } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -20,7 +22,7 @@ app.use(cors());
 app.use(requestLogger);
 
 app.get("/", (req, res) => {
-  res.send({ message: "Welcome to the Clothing Items API" });
+  res.send({ message: "WTWR API is running!" });
 });
 
 app.get("/favicon.ico", (req, res) => {
@@ -32,7 +34,7 @@ app.post("/signup", validateCreateUser, createUser);
 
 app.get("/items", require("./controllers/clothingItem").getItems);
 
-app.use(require("./middlewares/auth"));
+app.use(require("./middlewares/auth")); // Apply auth middleware
 
 app.use(routes);
 
