@@ -36,11 +36,11 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 ## Frontend Repository
 
-Here is the repository link: [GitHub Repo](https://github.com/MadihaWazir/se_project_react.git)
+Here is the repository link: [se_project_react](https://github.com/MadihaWazir/se_project_react.git)
 
 ## Domain Name
 
-Check out the live site here: [www.example.com](https://www.wtwr.cbu.net)
+Check out the live site here: [www.wtwr.cbu.net](https://www.wtwr.cbu.net)
 
 ## Running the Project
 
