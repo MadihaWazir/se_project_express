@@ -34,6 +34,14 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 - Data Validation – Strong input validation at the request level
 
+## Frontend Repository
+
+Here is the repository link: [GitHub Repo](https://github.com/MadihaWazir/se_project_react.git)
+
+## Domain Name
+
+Check out the live site here: [www.example.com](https://www.wtwr.cbu.net)
+
 ## Running the Project
 
 `npm run start` — to launch the server
