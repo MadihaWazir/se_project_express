@@ -2,7 +2,6 @@ const ClothingItem = require("../models/clothingItem");
 const {
   BadRequestError,
   NotFoundError,
-
   ForbiddenError,
 } = require("../utils/errors");
 const { ERROR_MESSAGES } = require("../utils/errors");
@@ -45,7 +44,7 @@ const deleteItem = (req, res, next) => {
         return next(new NotFoundError(ERROR_MESSAGES.NOT_FOUND.message));
       }
       if (item.owner.toString() !== userId) {
-        return next(new ForbiddenError(ERROR_MESSAGES.FORBIDDEN.message));
+        return next(new ForbiddenError(ERROR_MESSAGES.FORBIDDEN_ERROR.message));
       }
       return ClothingItem.findByIdAndDelete(itemId).then((deletedItem) =>
         res.status(200).send({ message: "Item deleted", item: deletedItem })
